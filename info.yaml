@@ -1,7 +1,7 @@
 # Tiny Tapeout project information
 project:
   title:        "ALU with 7-Segment Display"   # عدّل العنوان زي ما تحب
-  author:       ""      # اكتب اسمك هنا
+  author:       "Ahmed ELmallah"      # اكتب اسمك هنا
   discord:      ""      # اكتب يوزر الديسكورد بتاعك هنا (اختياري)
   description:  "8-bit ALU controlled by push buttons and switches, with result shown on a multiplexed 7-segment display"
   language:     "Verilog"
