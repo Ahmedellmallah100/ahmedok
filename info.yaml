@@ -12,8 +12,16 @@ project:
 
   top_module:  "tt_um_example"
 
-  source_files:
-    - "project.v"
+source_files:
+  - "project.v"
+  - "top_module.v"
+  - "Alu.v"
+  - "Debounce.v"
+  - "clk_divider.v"
+  - "Bcd_Conventer.v"
+  - "An_sel.v"
+  - "mux.v"
+  - "decoder.v"
 
 # The pinout of your project.
 pinout:
