@@ -9,7 +9,7 @@ reg [7:0] a, b;
 reg [2:0] opcode;
     always @(posedge clk or negedge rstn) begin
 
-    if (rstn) begin
+        if (!rstn) begin
         a            <= 8'd0;
         b            <= 8'd0;
         c_plus_carry <= 9'd0;
