@@ -1,33 +1,31 @@
 # Tiny Tapeout project information
 project:
-  title:        "ALU with 7-Segment Display"   # عدّل العنوان زي ما تحب
-  author:       "Ahmed ELmallah"      # اكتب اسمك هنا
-  discord:      ""      # اكتب يوزر الديسكورد بتاعك هنا (اختياري)
-  description:  "8-bit ALU controlled by push buttons and switches, with result shown on a multiplexed 7-segment display"
+  title:        "8-bit ALU with 7-Segment Display"
+  author:       "Ahmed ELmallah"
+  discord:      ""
+  description:  "An 8-bit ALU controlled by switches and push buttons, with the result displayed on a multiplexed 4-digit 7-segment display."
   language:     "Verilog"
-  clock_hz:     0        # حط تردد الكلوك الفعلي بتاعك هنا لو معروف (مثلاً 50000000 لو 50MHz)
+  clock_hz:     0
 
-  # How many tiles your design occupies? A single tile is about 167x108 uM.
+  # How many tiles your design occupies?
   tiles: "1x1"
 
-  # Your top module name must start with "tt_um_". Make it unique by including your github username:
   top_module:  "tt_um_example"
 
-  # List your project's source files here.
   source_files:
     - "project.v"
 
-# The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
+# The pinout of your project.
 pinout:
   # Inputs
-  ui[0]: "sw[0]"
-  ui[1]: "sw[1]"
-  ui[2]: "sw[2]"
-  ui[3]: "sw[3]"
-  ui[4]: "sw[4]"
-  ui[5]: "sw[5]"
-  ui[6]: "sw[6]"
-  ui[7]: "sw[7]"
+  ui[0]: "SW0"
+  ui[1]: "SW1"
+  ui[2]: "SW2"
+  ui[3]: "SW3"
+  ui[4]: "SW4"
+  ui[5]: "SW5"
+  ui[6]: "SW6"
+  ui[7]: "SW7"
 
   # Outputs
   uo[0]: "SEG_A"
@@ -40,9 +38,9 @@ pinout:
   uo[7]: "SEG_DP"
 
   # Bidirectional pins
-  uio[0]: "pb1"
-  uio[1]: "pb2"
-  uio[2]: "pb3"
+  uio[0]: "PB1"
+  uio[1]: "PB2"
+  uio[2]: "PB3"
   uio[3]: "AN0"
   uio[4]: "AN1"
   uio[5]: "AN2"
