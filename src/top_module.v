@@ -16,33 +16,29 @@ module tt_um_example (
     input  wire       rst_n     // reset_n - low to reset
 );
 
-    //---------------- إعادة تسمية الإشارات الأصلية زي ما هي بالظبط ----------------
     wire pb1, pb2, pb3;
     wire [7:0] sw;
     wire [7:0] led;
     wire [7:0] out_seg;
     wire [3:0] an;
 
-    // ===== ربط المداخل =====
-    assign sw  = ui_in;         // السويتشات على البنات المخصصة للدخول
-    assign pb1 = uio_in[0];     // البوتونات على بنات الـ bidirectional (كدخول)
+    //inputs
+    assign sw  = ui_in;     
+    assign pb1 = uio_in[0];     
     assign pb2 = uio_in[1];
     assign pb3 = uio_in[2];
 
-    // ===== ربط المخارج =====
-    assign uo_out       = out_seg;   // السفن سيجمنت على البنات المخصصة للخروج
-    assign uio_out[2:0] = 3'b000;    // مش مستخدمة (نفس بنات البوتونات دي input فعليًا)
-    assign uio_out[6:3] = an;        // اختيار الـ anode
-    assign uio_out[7]   = 1'b0;      // بن فاضي
+    //outputs
+    assign uo_out       = out_seg; 
+    assign uio_out[2:0] = 3'b000;    
+    assign uio_out[6:3] = an;        
+    assign uio_out[7]   = 1'b0;  
 
-    // تحديد اتجاه بنات الـ uio: 0..2 دخول (بوتونات) - 3..7 خروج
     assign uio_oe = 8'b11111000;
 
-    // الـ led مش طالعة على أي بن خارجي (مفيش بنات كفاية)
     wire _unused_led = &led;
     wire _unused = &{ena, 1'b0};
 
-    //====================== باقي الموديول زي ما هو بالظبط ============================
 
     wire slow_clk;
     wire pb1_db, pb2_db, pb3_db;
