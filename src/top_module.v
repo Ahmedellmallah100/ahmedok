@@ -1,91 +1,62 @@
-/*
- * Copyright (c) 2024 Your Name
- * SPDX-License-Identifier: Apache-2.0
- */
-
-`default_nettype none
-
-module tt_um_example (
-    input  wire [7:0] ui_in,    // Dedicated inputs
-    output wire [7:0] uo_out,   // Dedicated outputs
-    input  wire [7:0] uio_in,   // IOs: Input path
-    output wire [7:0] uio_out,  // IOs: Output path
-    output wire [7:0] uio_oe,   // IOs: Enable path (active high: 0=input, 1=output)
-    input  wire       ena,      // always 1 when the design is powered, so you can ignore it
-    input  wire       clk,      // clock
-    input  wire       rst_n     // reset_n - low to reset
-);
-
-    wire pb1, pb2, pb3;
-    wire [7:0] sw;
-    wire [7:0] led;
-    wire [7:0] out_seg;
-    wire [3:0] an;
-
-    //inputs
-    assign sw  = ui_in;     
-    assign pb1 = uio_in[0];     
-    assign pb2 = uio_in[1];
-    assign pb3 = uio_in[2];
-
-    //outputs
-    assign uo_out       = out_seg; 
-    assign uio_out[2:0] = 3'b000;    
-    assign uio_out[6:3] = an;        
-    assign uio_out[7]   = 1'b0;  
-
-    assign uio_oe = 8'b11111000;
-
-    wire _unused_led = &led;
-    wire _unused = &{ena, 1'b0};
-
+module top_module (pb1, pb2, pb3, sw, clk, rst, led, an, out_seg);
+  input  pb1, pb2, pb3;
+  input  clk, rst;
+  input  [7:0] sw;
+  output [7:0] led;
+  output [7:0] out_seg;
+  output [3:0] an;
 
     wire slow_clk;
     wire pb1_db, pb2_db, pb3_db;
     wire [8:0] alu_result;
     wire [3:0] letters;
     wire [11:0] bcd;
-    wire [1:0] sel;
-    wire [3:0] mux_out;
+      wire [1:0] sel;
 
-    //====================== Clock Divider ============================
-    clk_divider clk1 (.clk(clk), .rstn(rst_n), .clk_hz(slow_clk));
+  wire [3:0] mux_out;
 
-    //=================== Debounce for Push Buttons ===================
-    Debounce d1 (.pb(pb1), .pb_db(pb1_db), .clk_hz(slow_clk), .rstn(rst_n));
-    Debounce d2 (.pb(pb2), .pb_db(pb2_db), .clk_hz(slow_clk), .rstn(rst_n));
-    Debounce d3 (.pb(pb3), .pb_db(pb3_db), .clk_hz(slow_clk), .rstn(rst_n));
+   //====================== Clock Divider ============================
+  clk_divider clk1 (.clk(clk), .rstn(rst), .clk_hz(slow_clk));
 
-    //============================ ALU =================================
-    Alu A1 (
-        .rstn(rst_n),
-        .clk(clk),
-        .pb1_db(pb1_db),
-        .pb2_db(pb2_db),
-        .pb3_db(pb3_db),
-        .sw(sw),
-        .c_plus_carry(alu_result),
-        .letters(letters)
-    );
+  //=================== Debounce for Push Buttons ===================
 
-    //========================= Binary to BCD =========================
-    Bcd_Conventer B1 (.binary(alu_result[7:0]), .bcd(bcd));
+  Debounce d1 (.pb(pb1), .pb_db(pb1_db), .clk_hz(slow_clk), .rstn(rst));
+  Debounce d2 (.pb(pb2), .pb_db(pb2_db), .clk_hz(slow_clk), .rstn(rst));
+  Debounce d3 (.pb(pb3), .pb_db(pb3_db), .clk_hz(slow_clk), .rstn(rst));
 
-    assign led = alu_result[7:0];
+  //============================ ALU =================================
+  
 
-    //====================== Anode Selection ==========================
-    An_sel An (.clk(slow_clk), .sel(sel), .an(an));
+  Alu A1 (
+    .rstn(rst),
+    .clk(clk),
+    .pb1_db(pb1_db),
+    .pb2_db(pb2_db),
+    .pb3_db(pb3_db),
+    .sw(sw),
+    .c_plus_carry(alu_result),
+    .letters(letters)
+  );
 
-    //====================== Multiplexer for BCD ======================
-    mux m (
-        .sel(sel),
-        .ones(bcd[3:0]),
-        .tens(bcd[7:4]),
-        .hundred(bcd[11:8]),
-        .digtial(mux_out)
-    );
+  //========================= Binary to BCD =========================
+  Bcd_Conventer B1 (.binary(alu_result[7:0]), .bcd(bcd));
 
-    //====================== 7-Segment Decoder ========================
-    decoder D (.digtial(mux_out), .seg(out_seg));
+ assign led = alu_result[7:0];
 
-endmodule // tt_um_example
+
+  //====================== Anode Selection ==========================
+  An_sel An (.clk(slow_clk), .sel(sel), .an(an));
+
+  //====================== Multiplexer for BCD ======================
+  mux m (
+    .sel(sel),
+    .ones(bcd[3:0]),
+    .tens(bcd[7:4]),
+    .hundred(bcd[11:8]),
+    .digtial(mux_out)
+  );
+
+  //====================== 7-Segment Decoder ========================
+  decoder D (.digtial(mux_out), .seg(out_seg));
+
+endmodule // top_module
