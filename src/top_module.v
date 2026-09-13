@@ -57,6 +57,9 @@ module top_module (pb1, pb2, pb3, sw, clk, rst, led, an, out_seg);
   );
 
   //====================== 7-Segment Decoder ========================
-  decoder D (.digtial(mux_out), .seg(out_seg));
+  decoder D (.digtial(mux_out), .seg(seg7));
+  
+    assign out_seg[6:0] = seg7;
+    assign out_seg[7] = 1'b0;
 
 endmodule // top_module
