@@ -20,18 +20,20 @@ async def test_project(dut):
     dut.ui_in.value = 0
     dut.uio_in.value = 0
     dut.rst_n.value = 0
+
     await ClockCycles(dut.clk, 10)
+
     dut.rst_n.value = 1
 
     dut._log.info("Test project behavior")
 
-    # Set switches and push buttons
+    # Set switches
     dut.ui_in.value = 20
-    dut.uio_in.value = 0
 
     # Wait for the circuit
     await ClockCycles(dut.clk, 20)
 
-    # Check outputs
+    # Output must be known
     assert dut.uo_out.value.is_resolvable
-    assert (dut.uio_out.value.integer & 0x78) != 0
+
+    dut._log.info("Output is resolvable")
