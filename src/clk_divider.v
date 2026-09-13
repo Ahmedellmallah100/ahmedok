@@ -5,7 +5,7 @@ reg [17:0] count;
 
 always @(posedge clk or posedge rstn) begin
     if (rstn) begin
-        count <= 17'd0;
+        count <= 18'd0;
     end
     else if (count < 250000) begin
         count <= count+1;
