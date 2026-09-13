@@ -8,18 +8,19 @@ project:
 
   tiles: "1x1"
 
-  top_module:  "tt_um_example"
+  top_module: "tt_um_example"
 
   source_files:
     - "project.v"
     - "top_module.v"
     - "Alu.v"
+    - "An_sel.v"
+    - "Bcd_Conventer.v"
+    - "D_flipflop.v"
     - "Debounce.v"
     - "clk_divider.v"
-    - "Bcd_Conventer.v"
-    - "An_sel.v"
-    - "mux.v"
     - "decoder.v"
+    - "mux.v"
 
 pinout:
   ui[0]: "SW0"
