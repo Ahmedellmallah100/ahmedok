@@ -1,4 +1,3 @@
-# Tiny Tapeout project information
 project:
   title:        "8-bit ALU with 7-Segment Display"
   author:       "Ahmed ELmallah"
@@ -7,25 +6,22 @@ project:
   language:     "Verilog"
   clock_hz:     0
 
-  # How many tiles your design occupies?
   tiles: "1x1"
 
   top_module:  "tt_um_example"
 
-source_files:
-  - "project.v"
-  - "top_module.v"
-  - "Alu.v"
-  - "Debounce.v"
-  - "clk_divider.v"
-  - "Bcd_Conventer.v"
-  - "An_sel.v"
-  - "mux.v"
-  - "decoder.v"
+  source_files:
+    - "project.v"
+    - "top_module.v"
+    - "Alu.v"
+    - "Debounce.v"
+    - "clk_divider.v"
+    - "Bcd_Conventer.v"
+    - "An_sel.v"
+    - "mux.v"
+    - "decoder.v"
 
-# The pinout of your project.
 pinout:
-  # Inputs
   ui[0]: "SW0"
   ui[1]: "SW1"
   ui[2]: "SW2"
@@ -35,7 +31,6 @@ pinout:
   ui[6]: "SW6"
   ui[7]: "SW7"
 
-  # Outputs
   uo[0]: "SEG_A"
   uo[1]: "SEG_B"
   uo[2]: "SEG_C"
@@ -45,7 +40,6 @@ pinout:
   uo[6]: "SEG_G"
   uo[7]: "SEG_DP"
 
-  # Bidirectional pins
   uio[0]: "PB1"
   uio[1]: "PB2"
   uio[2]: "PB3"
@@ -55,5 +49,4 @@ pinout:
   uio[6]: "AN3"
   uio[7]: ""
 
-# Do not change!
 yaml_version: 6
