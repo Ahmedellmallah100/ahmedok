@@ -11,7 +11,8 @@ module top_module (pb1, pb2, pb3, sw, clk, rst, led, an, out_seg);
     wire [8:0] alu_result;
     wire [3:0] letters;
     wire [11:0] bcd;
-      wire [1:0] sel;
+    wire [1:0] sel;
+    wire [6:0] seg7;
 
   wire [3:0] mux_out;
 
