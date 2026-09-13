@@ -4,7 +4,7 @@ input D, clk, rstn;
 output reg Q;
 
     always @(posedge clk or negedge rstn) begin
-    if (rstn) begin
+        if (!rstn) begin
         Q <= 0;
     end
     else
