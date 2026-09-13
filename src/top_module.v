@@ -46,7 +46,12 @@ module top_module (pb1, pb2, pb3, sw, clk, rst, led, an, out_seg);
 
 
   //====================== Anode Selection ==========================
-  An_sel An (.clk(slow_clk), .sel(sel), .an(an));
+An_sel An (
+    .clk(slow_clk),
+    .rstn(rst),
+    .sel(sel),
+    .an(an)
+);
 
   //====================== Multiplexer for BCD ======================
   mux m (
