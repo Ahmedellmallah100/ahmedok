@@ -7,7 +7,7 @@ module Alu (
 
 reg [7:0] a, b;
 reg [2:0] opcode;
-always @(posedge clk or posedge rstn) begin
+    always @(posedge clk or negedge rstn) begin
 
     if (rstn) begin
         a            <= 8'd0;
