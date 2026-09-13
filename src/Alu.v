@@ -34,7 +34,7 @@ always @(posedge clk or posedge rstn) begin
                     letters <= 4'h2; 
                 end
                 3'b011 : begin
-                    c_plus_carry <= {1'b0, (~a + 1)};
+                    c_plus_carry <= {1'b0, (~a + 8'd1)};
                     letters <= 4'h3; 
                 end
                 3'b100 : begin
