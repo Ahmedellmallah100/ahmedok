@@ -1,4 +1,3 @@
-`default_nettype none
 
 module tt_um_example (
     input  wire [7:0] ui_in,
@@ -13,16 +12,11 @@ module tt_um_example (
     input  wire       rst_n
 );
 
-    // Switches
     wire [7:0] sw;
-
-    // Push buttons
     wire pb1;
     wire pb2;
     wire pb3;
 
-    // Core outputs
-    wire [7:0] led;
     wire [7:0] out_seg;
     wire [3:0] an;
 
@@ -32,7 +26,6 @@ module tt_um_example (
     assign pb2 = uio_in[1];
     assign pb3 = uio_in[2];
 
-    // Main design
     top_module core (
         .pb1     (pb1),
         .pb2     (pb2),
@@ -40,12 +33,12 @@ module tt_um_example (
         .sw      (sw),
         .clk     (clk),
         .rst     (rst_n),
-        .led     (led),
+        .led     (),
         .an      (an),
         .out_seg (out_seg)
     );
 
-    // 7-segment output
+    // 7-segment
     assign uo_out = out_seg;
 
     // Digit select
@@ -54,7 +47,7 @@ module tt_um_example (
     assign uio_out[5] = an[2];
     assign uio_out[6] = an[3];
 
-    // Unused bidirectional pins
+    // Unused pins
     assign uio_out[2:0] = 3'b000;
     assign uio_out[7]   = 1'b0;
 
@@ -65,4 +58,3 @@ module tt_um_example (
 
 endmodule
 
-`default_nettype wire
