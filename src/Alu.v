@@ -7,6 +7,7 @@ module Alu (
 
 reg [7:0] a, b;
 reg [2:0] opcode;
+
     always @(posedge clk or negedge rstn) begin
 
         if (!rstn) begin
@@ -24,7 +25,7 @@ reg [2:0] opcode;
             letters <= 4'hB;
         end else if (pb3_db) begin
             opcode <= sw[2:0];   
-            case (sw[2:0])
+            case (opcode)
                 3'b001 : begin
                     c_plus_carry <= {1'b0, a} + {1'b0, b};
                     letters <= 4'h1; 
