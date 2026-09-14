@@ -8,10 +8,10 @@ wire [3:0] hundred;
 wire [3:0] tens;
 wire [3:0] ones;
 
-assign hundred = binary / 8'd100;
-assign temp    = binary % 8'd100;
-assign tens    = temp / 8'd10;
-assign ones    = temp % 8'd10;
+assign hundred = binary / 4'd100;
+assign temp    = binary % 4'd100;
+assign tens    = temp / 4'd10;
+assign ones    = temp % 4'd10;
 
 assign bcd = {hundred, tens, ones};
 
