@@ -1,17 +1,18 @@
-module Bcd_Conventer (binary, bcd);
-  input  [7:0]  binary;
-  output [11:0] bcd;
-  
-  reg [3:0] ones, tens, hundred;
-  reg [7:0] temp;
+module Bcd_Conventer (
+    input  wire [7:0] binary,
+    output wire [11:0] bcd
+);
 
-  always @(*) begin
-    hundred = binary / 100;
-    temp    = binary % 100;
-    tens    = temp / 10;
-    ones    = temp % 10;
-  end
+wire [7:0] temp;
+wire [3:0] hundred;
+wire [3:0] tens;
+wire [3:0] ones;
 
-  assign bcd = {hundred, tens, ones};
-  
+assign hundred = binary / 8'd100;
+assign temp    = binary % 8'd100;
+assign tens    = temp / 8'd10;
+assign ones    = temp % 8'd10;
+
+assign bcd = {hundred, tens, ones};
+
 endmodule
