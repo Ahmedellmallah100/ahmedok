@@ -1,8 +1,3 @@
-/*
- * Copyright (c) 2024 Your Name
- * SPDX-License-Identifier: Apache-2.0
- */
-
 `default_nettype none
 
 module tt_um_example (
@@ -18,22 +13,18 @@ module tt_um_example (
     input  wire       rst_n
 );
 
-    // -----------------------------
-    // Internal signals
-    // -----------------------------
+    // Switches
+    wire [7:0] sw;
 
-    wire        pb1;
-    wire        pb2;
-    wire        pb3;
+    // Push buttons
+    wire pb1;
+    wire pb2;
+    wire pb3;
 
-    wire [7:0]  sw;
-    wire [7:0]  led;
-    wire [7:0]  out_seg;
-    wire [3:0]  an;
-
-    // -----------------------------
-    // Inputs
-    // -----------------------------
+    // Core outputs
+    wire [7:0] led;
+    wire [7:0] out_seg;
+    wire [3:0] an;
 
     assign sw  = ui_in;
 
@@ -41,48 +32,37 @@ module tt_um_example (
     assign pb2 = uio_in[1];
     assign pb3 = uio_in[2];
 
-    // -----------------------------
-    // Your original design
-    // -----------------------------
-
+    // Main design
     top_module core (
-        .pb1(pb1),
-        .pb2(pb2),
-        .pb3(pb3),
-        .sw(sw),
-        .clk(clk),
-        .rst(rst_n),
-        .led(led),
-        .an(an),
-        .out_seg(out_seg)
+        .pb1     (pb1),
+        .pb2     (pb2),
+        .pb3     (pb3),
+        .sw      (sw),
+        .clk     (clk),
+        .rst     (rst_n),
+        .led     (led),
+        .an      (an),
+        .out_seg (out_seg)
     );
 
-    // -----------------------------
-    // Outputs
-    // -----------------------------
-
-    // 7-segment segments
+    // 7-segment output
     assign uo_out = out_seg;
 
-    // 7-segment anodes
-    assign uio_out[6:3] = an;
+    // Digit select
+    assign uio_out[3] = an[0];
+    assign uio_out[4] = an[1];
+    assign uio_out[5] = an[2];
+    assign uio_out[6] = an[3];
 
-    // Unused pins
+    // Unused bidirectional pins
     assign uio_out[2:0] = 3'b000;
     assign uio_out[7]   = 1'b0;
 
-    // -----------------------------
-    // UIO direction
-    // -----------------------------
-
-    // uio[2:0] = inputs  (PB1, PB2, PB3)
-    // uio[6:3] = outputs (AN[3:0])
-    // uio[7]   = unused output
-
-    assign uio_oe = 8'b11111000;
-
-    // Prevent unused signal warning
-    wire _unused = &{ena, led};
+    // Output enable
+    assign uio_oe[6:3] = 4'b1111;
+    assign uio_oe[2:0] = 3'b000;
+    assign uio_oe[7]   = 1'b0;
 
 endmodule
 
+`default_nettype wire
