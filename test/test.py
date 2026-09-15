@@ -105,7 +105,7 @@ async def press_button(dut, button):
 
 def get_current_anode(dut):
 
-    value = dut.uio_out.value.integer
+    value = dut.uio_out.value.to_unsigned()
 
     # uio_out[6:3] = AN3 AN2 AN1 AN0
     return (value >> 3) & 0xF
@@ -117,7 +117,7 @@ def get_current_anode(dut):
 
 def get_current_digit(dut):
 
-    seg = dut.uo_out.value.integer & 0x7F
+    seg = dut.uo_out.value.to_unsigned() & 0x7F
 
     return decode_7seg(seg)
 
@@ -178,6 +178,30 @@ def digits_to_number(digits):
     hundreds = digits[2]
 
     return hundreds * 100 + tens * 10 + ones
+
+
+# ============================================================
+# Check Internal LEDs / Letters (RTL)
+# ============================================================
+
+def check_internal_outputs(dut, expected_result, expected_letter):
+    try:
+        led = dut.core.led.value.to_unsigned() & 0xFF
+        letters = dut.core.A1.letters.value.to_unsigned() & 0xF
+
+        assert led == expected_result, (
+            f"LED ERROR: expected {expected_result}, got {led}"
+        )
+        assert letters == expected_letter, (
+            f"LETTERS ERROR: expected {expected_letter:X}, got {letters:X}"
+        )
+
+        dut._log.info(
+            f"LED PASSED -> {led}, LETTERS PASSED -> {letters:X}"
+        )
+    except (AttributeError, ValueError):
+        # Gate-level synthesis may remove internal signal names.
+        pass
 
 
 # ============================================================
@@ -310,9 +334,9 @@ def expected_result(a, b, opcode):
     elif opcode == 0b010:
         return (a - b) & 0xFF
 
-    # NOT
+    # TWO'S COMPLEMENT
     elif opcode == 0b011:
-        return (~a) & 0xFF
+        return ((~a) + 1) & 0xFF
 
     # AND
     elif opcode == 0b100:
@@ -340,7 +364,8 @@ async def test_operation(
     a,
     b,
     opcode,
-    name
+    name,
+    expected_letter
 ):
 
     dut._log.info(
@@ -413,6 +438,12 @@ async def test_operation(
         expected
     )
 
+    check_internal_outputs(
+        dut,
+        expected,
+        expected_letter
+    )
+
     dut._log.info(
         f"{name} PASSED"
     )
@@ -482,7 +513,8 @@ async def test_project(dut):
         A,
         B,
         0b001,
-        "ADD"
+        "ADD",
+        0x1
     )
 
     # SUB
@@ -491,7 +523,8 @@ async def test_project(dut):
         A,
         B,
         0b010,
-        "SUB"
+        "SUB",
+        0x2
     )
 
     # NOT
@@ -500,7 +533,8 @@ async def test_project(dut):
         A,
         B,
         0b011,
-        "NOT"
+        "TWO'S COMPLEMENT",
+        0x3
     )
 
     # AND
@@ -509,7 +543,8 @@ async def test_project(dut):
         A,
         B,
         0b100,
-        "AND"
+        "AND",
+        0x4
     )
 
     # OR
@@ -518,7 +553,8 @@ async def test_project(dut):
         A,
         B,
         0b101,
-        "OR"
+        "OR",
+        0x5
     )
 
     # XOR
@@ -527,7 +563,8 @@ async def test_project(dut):
         A,
         B,
         0b110,
-        "XOR"
+        "XOR",
+        0x6
     )
 
     # ========================================================
@@ -539,7 +576,8 @@ async def test_project(dut):
         0,
         0,
         0b001,
-        "ADD 0 + 0"
+        "ADD 0 + 0",
+        0x1
     )
 
     # ========================================================
@@ -551,7 +589,8 @@ async def test_project(dut):
         255,
         0,
         0b001,
-        "ADD 255 + 0"
+        "ADD 255 + 0",
+        0x1
     )
 
     # ========================================================
@@ -567,7 +606,8 @@ async def test_project(dut):
         200,
         100,
         0b001,
-        "ADD OVERFLOW"
+        "ADD OVERFLOW",
+        0x1
     )
 
     # ========================================================
@@ -583,7 +623,8 @@ async def test_project(dut):
         10,
         20,
         0b010,
-        "SUB UNDERFLOW"
+        "SUB UNDERFLOW",
+        0x2
     )
 
     # ========================================================
@@ -595,7 +636,8 @@ async def test_project(dut):
         123,
         45,
         0b001,
-        "ADD 123 + 45"
+        "ADD 123 + 45",
+        0x1
     )
 
     await test_operation(
@@ -603,7 +645,8 @@ async def test_project(dut):
         255,
         255,
         0b100,
-        "AND 255 & 255"
+        "AND 255 & 255",
+        0x4
     )
 
     await test_operation(
@@ -611,7 +654,8 @@ async def test_project(dut):
         170,
         85,
         0b110,
-        "XOR 170 ^ 85"
+        "XOR 170 ^ 85",
+        0x6
     )
 
     # ========================================================
