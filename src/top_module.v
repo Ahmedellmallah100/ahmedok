@@ -17,7 +17,6 @@ module top_module (
     wire pb3_db;
 
     wire [7:0] alu_result;
-    wire [3:0] letters;
 
     wire [11:0] bcd;
     wire [1:0] sel;
@@ -62,7 +61,6 @@ module top_module (
         .pb3_db        (pb3_db),
         .sw            (sw),
         .c_plus_carry  (alu_result),
-        .letters        (letters)
     );
 
     // Binary to BCD
