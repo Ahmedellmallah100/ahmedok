@@ -1,22 +1,20 @@
+`default_nettype none
+
 module Bcd_Conventer (
     input  wire [7:0] binary,
     output wire [11:0] bcd
 );
 
-    wire [7:0] temp;
-    wire [7:0] hundred_result;
-    wire [7:0] tens_result;
-    wire [7:0] ones_result;
+    wire [3:0] hundred;
+    wire [3:0] tens;
+    wire [3:0] ones;
 
-    assign hundred_result = binary / 8'd100;
-    assign temp           = binary % 8'd100;
-    assign tens_result    = temp / 8'd10;
-    assign ones_result    = temp % 8'd10;
+    assign hundred = binary / 8'd100;
+    assign tens    = (binary % 8'd100) / 8'd10;
+    assign ones    = binary % 8'd10;
 
-    assign bcd = {
-        hundred_result[3:0],
-        tens_result[3:0],
-        ones_result[3:0]
-    };
+    assign bcd = {hundred, tens, ones};
 
 endmodule
+
+`default_nettype wire
