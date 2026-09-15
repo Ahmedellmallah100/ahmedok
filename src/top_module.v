@@ -7,7 +7,6 @@ module top_module (
     input  clk,
     input  rst,
     input  [7:0] sw,
-    output [7:0] led,
     output [3:0] an,
     output [7:0] out_seg
 );
@@ -72,7 +71,6 @@ module top_module (
         .bcd    (bcd)
     );
 
-    assign led = alu_result[7:0];
 
     // Anode selection
     An_sel An (
