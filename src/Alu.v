@@ -1,7 +1,7 @@
 module Alu (
     input        rstn, clk, pb1_db, pb2_db, pb3_db,
     input  [7:0] sw,
-    output reg [7:0] c_plus_carry,
+    output reg [7:0] c_plus_carry
 
 );
 
