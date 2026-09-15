@@ -1,4 +1,3 @@
-
 module Bcd_Conventer (
     input  wire [7:0] binary,
     output wire [11:0] bcd
@@ -21,4 +20,3 @@ module Bcd_Conventer (
     };
 
 endmodule
-
