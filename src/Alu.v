@@ -1,12 +1,12 @@
 module Alu (
     input        rstn, clk, pb1_db, pb2_db, pb3_db,
     input  [7:0] sw,
-    output reg [8:0] c_plus_carry,
+    output reg [7:0] c_plus_carry,
     output reg [3:0] letters
 );
 
 reg [7:0] a, b;
-reg [2:0] opcode;
+
 
     always @(posedge clk or negedge rstn) begin
 
@@ -24,7 +24,7 @@ reg [2:0] opcode;
             b       <= sw;
             letters <= 4'hB;
         end else if (pb3_db) begin
-            opcode <= sw[2:0];   
+               
             case (sw[2:0])
                 3'b001 : begin
                     c_plus_carry <= {1'b0, a} + {1'b0, b};
