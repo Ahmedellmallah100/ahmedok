@@ -1,4 +1,4 @@
-`default_nettype none
+
 
 module top_module (
     input  pb1,
@@ -100,4 +100,4 @@ module top_module (
 
 endmodule
 
-`default_nettype wire
+
