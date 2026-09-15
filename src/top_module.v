@@ -16,7 +16,7 @@ module top_module (
     wire pb2_db;
     wire pb3_db;
 
-    wire [7:0] alu_result;
+    wire [8:0] alu_result;
 
     wire [11:0] bcd;
     wire [1:0] sel;
