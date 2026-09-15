@@ -25,7 +25,7 @@ reg [2:0] opcode;
             letters <= 4'hB;
         end else if (pb3_db) begin
             opcode <= sw[2:0];   
-            case (opcode)
+            case (sw[2:0])
                 3'b001 : begin
                     c_plus_carry <= {1'b0, a} + {1'b0, b};
                     letters <= 4'h1; 
