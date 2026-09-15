@@ -5,7 +5,6 @@ module decoder (digtial ,seg);
 
   always @ (*) begin 
     case (digtial)
-        case (digital)
             4'h0: seg = 7'b0000001;
             4'h1: seg = 7'b1001111;
             4'h2: seg = 7'b0010010;
