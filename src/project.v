@@ -33,7 +33,6 @@ module tt_um_example (
         .sw      (sw),
         .clk     (clk),
         .rst     (rst_n),
-        .led     (),
         .an      (an),
         .out_seg (out_seg)
     );
