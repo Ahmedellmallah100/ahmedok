@@ -1,4 +1,4 @@
-`default_nettype none
+
 
 module Bcd_Conventer (
     input  wire [7:0] binary,
@@ -17,4 +17,4 @@ module Bcd_Conventer (
 
 endmodule
 
-`default_nettype wire
+
