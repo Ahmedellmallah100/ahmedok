@@ -60,7 +60,7 @@ module top_module (
         .pb2_db        (pb2_db),
         .pb3_db        (pb3_db),
         .sw            (sw),
-        .c_plus_carry  (alu_result),
+        .c_plus_carry  (alu_result)
     );
 
     // Binary to BCD
